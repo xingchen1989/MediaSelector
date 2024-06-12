@@ -1,8 +1,8 @@
 plugins {
+    id 'maven-publish'
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.androidxSafeArgs)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id 'maven-publish'
 }
 
 android {
@@ -35,7 +35,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.material
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
