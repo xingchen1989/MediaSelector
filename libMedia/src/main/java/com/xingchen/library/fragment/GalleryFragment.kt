@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.xingchen.library.R
 import com.xingchen.library.databinding.FragmentGalleryBinding
+import com.xingchen.library.utils.MediaSelector
 
 /** Fragment used to present the user with a gallery of photos taken */
 class GalleryFragment : BaseFragment() {
@@ -55,7 +56,7 @@ class GalleryFragment : BaseFragment() {
         // Handle confirm button press
         fragmentGalleryBinding.confirmButton.setOnClickListener {
             activity?.setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra("MEDIA_URI", args.uri)
+                putExtra(MediaSelector.MEDIA_URI, args.uri)
             })
             activity?.finish()
         }

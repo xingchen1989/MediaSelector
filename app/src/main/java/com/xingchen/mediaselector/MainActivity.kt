@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.xingchen.library.utils.MediaSelector
+import com.xingchen.library.utils.MediaSelector.Companion.REQ_MEDIA
 import com.xingchen.mediaselector.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -35,19 +36,15 @@ class MainActivity : AppCompatActivity() {
             val storeDesc = resources.getString(R.string.store_description)
             val audioDesc = resources.getString(R.string.audio_description)
             val cameraDesc = resources.getString(R.string.camera_description)
-            MediaSelector(storeDesc, audioDesc, cameraDesc).start(this, REQUEST_MEDIA)
+            MediaSelector(storeDesc, audioDesc, cameraDesc).start(this, REQ_MEDIA)
         }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_MEDIA && resultCode == RESULT_OK && data != null) {
-            println(data.getParcelableExtra("MEDIA_URI"))
+        if (requestCode == REQ_MEDIA && resultCode == RESULT_OK && data != null) {
+            println(data.getParcelableExtra(MediaSelector.MEDIA_URI))
         }
-    }
-
-    companion object {
-        private const val REQUEST_MEDIA: Int = 100
     }
 }

@@ -31,4 +31,9 @@ class MediaSelector(
         val intent = MediaActivity.newIntent(fragment?.context, storeDesc, audioDesc, cameraDesc)
         intent?.also { fragment?.startActivityForResult(intent, requestCode) }
     }
+
+    companion object {
+        const val REQ_MEDIA: Int = 100
+        const val MEDIA_URI: String = "MEDIA_URI"
+    }
 }
