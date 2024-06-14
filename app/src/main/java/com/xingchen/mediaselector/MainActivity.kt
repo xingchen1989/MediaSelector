@@ -16,25 +16,15 @@
 
 package com.xingchen.mediaselector
 
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.xingchen.library.MediaActivity
+import com.xingchen.library.utils.MediaSelector
 import com.xingchen.mediaselector.databinding.ActivityMainBinding
-import org.json.JSONObject
-
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
-
-    private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK && result.data != null) {
-                val data: Uri? = result.data!!.getParcelableExtra("MEDIA_URI")
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +32,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         activityMainBinding.btnStart.setOnClickListener {
-            val storeDescription = resources.getString(R.string.store_description)
-            val audioDescription = resources.getString(R.string.audio_description)
-            val cameraDescription = resources.getString(R.string.camera_description)
-            activityResultLauncher.launch(
-                MediaActivity.newIntent(this, storeDescription, audioDescription, cameraDescription)
-            )
+            val storeDesc = resources.getString(R.string.store_description)
+            val audioDesc = resources.getString(R.string.audio_description)
+            val cameraDesc = resources.getString(R.string.camera_description)
+            MediaSelector(storeDesc, audioDesc, cameraDesc).start(this, REQUEST_MEDIA)
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_MEDIA && resultCode == RESULT_OK && data != null) {
+            println(data.getParcelableExtra("MEDIA_URI"))
+        }
+    }
+
+    companion object {
+        private const val REQUEST_MEDIA: Int = 100
     }
 }

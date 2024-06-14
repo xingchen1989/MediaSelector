@@ -58,11 +58,12 @@ class MediaActivity : AppCompatActivity() {
         const val CAMERA_DESCRIPTION = "camera_description"
 
         @JvmStatic
-        fun newIntent(context: Context, store: String, audio: String, camera: String): Intent {
+        fun newIntent(context: Context?, store: String?, audio: String?, camera: String?): Intent? {
+            if (context == null) return null
             return Intent(context, MediaActivity::class.java).apply {
-                putExtra(STORE_DESCRIPTION, store)
-                putExtra(AUDIO_DESCRIPTION, audio)
-                putExtra(CAMERA_DESCRIPTION, camera)
+                putExtra(STORE_DESCRIPTION, store ?: "")
+                putExtra(AUDIO_DESCRIPTION, audio ?: "")
+                putExtra(CAMERA_DESCRIPTION, camera ?: "")
             }
         }
     }
