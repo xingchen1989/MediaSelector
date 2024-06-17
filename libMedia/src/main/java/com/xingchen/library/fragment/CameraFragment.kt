@@ -104,10 +104,17 @@ class CameraFragment : BaseFragment() {
      * CaptureEvent listener.
      */
     private val captureListener = Consumer<VideoRecordEvent> { event ->
-        recordEvent = event
-        if (event is VideoRecordEvent.Finalize) {
-            val uri: Uri = event.outputResults.outputUri
-            navController.navigate(CameraFragmentDirections.actionCaptureToVideoViewer(uri))
+        this.recordEvent = event
+        when (event) {
+            is VideoRecordEvent.Status -> {
+                val durationNano = event.recordingStats.recordedDurationNanos
+                if (durationNano >= 60000000000L) recording?.stop()
+            }
+
+            is VideoRecordEvent.Finalize -> {
+                val uri: Uri = event.outputResults.outputUri
+                navController.navigate(CameraFragmentDirections.actionCaptureToVideoViewer(uri))
+            }
         }
     }
 
@@ -152,9 +159,7 @@ class CameraFragment : BaseFragment() {
     @SuppressLint("MissingPermission", "ClickableViewAccessibility")
     override fun initListener(view: View, savedInstanceState: Bundle?) {
         // Stop recording when the finger is raised
-        fragmentCameraBinding.cameraCaptureButton.onCaptureEnd = {
-            recording?.stop()
-        }
+        fragmentCameraBinding.cameraCaptureButton.onCaptureEnd = { recording?.stop() }
 
         // Handle takePhoto event
         fragmentCameraBinding.cameraCaptureButton.onTakePhoto = {

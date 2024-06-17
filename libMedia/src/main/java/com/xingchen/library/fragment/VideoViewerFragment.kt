@@ -17,7 +17,6 @@ import androidx.navigation.fragment.navArgs
 import com.xingchen.library.R
 import com.xingchen.library.databinding.FragmentVideoBinding
 
-
 class VideoViewerFragment : BaseFragment() {
     private lateinit var videoViewerBinding: FragmentVideoBinding
     private val args: VideoViewerFragmentArgs by navArgs()
@@ -36,12 +35,13 @@ class VideoViewerFragment : BaseFragment() {
         return videoViewerBinding.root
     }
 
-    override fun initView(view: View, savedInstanceState: Bundle?) {
-        super.initView(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         val fileSize = getFileSizeFromUri(args.uri)
-        if (fileSize == null || fileSize <= 0) return
-        videoViewerBinding.videoViewer.setVideoURI(args.uri)
-        videoViewerBinding.videoViewer.start()
+        if (fileSize != null && fileSize > 0) {
+            videoViewerBinding.videoViewer.setVideoURI(args.uri)
+            videoViewerBinding.videoViewer.start()
+        }
     }
 
     override fun initListener(view: View, savedInstanceState: Bundle?) {

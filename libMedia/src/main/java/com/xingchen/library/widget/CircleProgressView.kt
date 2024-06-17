@@ -65,7 +65,8 @@ class CircleProgressView @JvmOverloads constructor(
         paint.style = Paint.Style.STROKE
         canvas.drawCircle(centerX, centerY, radiusOuter, paint)
 
-        paint.color = Color.RED
+        // 绘制进度
+        paint.color = Color.GREEN
         paint.style = Paint.Style.STROKE
         canvas.drawArc(rectF, -90f, progress, false, paint)
     }
