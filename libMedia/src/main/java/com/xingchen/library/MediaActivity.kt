@@ -38,17 +38,26 @@ class MediaActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         activityMediaBinding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(activityMediaBinding.root)
-        initView(savedInstanceState)
-    }
-
-    private fun initView(savedInstanceState: Bundle?) {
         // 将nav_graph.xml设置为NavController的导航图
         navController.setGraph(R.navigation.nav_graph, intent?.extras)
-        // hide system bars
+        // hide system ui
+        hideSystemUI()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
+        // be trying to set app to immersive mode before it's ready and the flags do not stick
+        activityMediaBinding.fragmentContainer.postDelayed({
+            hideSystemUI()
+        }, 500L)
+    }
+
+    private fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, activityMediaBinding.root).let {
-            it.hide(WindowInsetsCompat.Type.systemBars())
-            it.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        WindowInsetsControllerCompat(window, activityMediaBinding.root).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 

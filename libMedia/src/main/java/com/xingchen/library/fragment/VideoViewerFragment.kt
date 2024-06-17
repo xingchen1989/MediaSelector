@@ -48,8 +48,8 @@ class VideoViewerFragment : BaseFragment() {
         super.initListener(view, savedInstanceState)
         // Set loop play
         videoViewerBinding.videoViewer.setOnCompletionListener {
-            videoViewerBinding.videoViewer.seekTo(0);
-            videoViewerBinding.videoViewer.start();
+            videoViewerBinding.videoViewer.seekTo(0)
+            videoViewerBinding.videoViewer.start()
         }
 
         // Handle back button press

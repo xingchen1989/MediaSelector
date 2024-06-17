@@ -58,7 +58,7 @@ afterEvaluate {
             maven(MavenPublication) {
                 groupId = 'com.github.xingchen1989'
                 artifactId = 'MediaSelector'
-                version = '1.2.3'
+                version = '1.2.4'
 
                 from components.release
             }
